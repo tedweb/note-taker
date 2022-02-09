@@ -1,0 +1,16 @@
+path: ~/Documents/Notes
+templates:
+- meeting_notes: ./templates/meeting_notes.md
+  folders:
+  - /FY22MFG
+  - /FY23MAE
+- development_notes: ./templates/development_notes.md
+  folders:
+  - /Personal Development
+- one_on_one_notes: ./templates/one_on_one_notes.md
+  - /Personal Development/1 on 1s
+commands:
+- Create/Append Note
+- Run Fiscal Year Oppty Report
+- Run Fiscal Quarter Oppty Report
+- Run Personal Development Report
