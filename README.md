@@ -6,8 +6,8 @@ CLI based note taking app written in Python.
 3. [Requirements](#requirements)
 4. [Installation](#installation)
 5. [Usage](#usage)
-
 <br>
+
 # Overview
 [Back to Top](#note-taker)
 <br>
