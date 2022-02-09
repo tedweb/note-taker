@@ -14,14 +14,14 @@ The quick brown fox jumped over the lazy dog. The quick brown fox jumped over th
 Text
 
 # Requirements
-[Back to Top](#notetaker)
+[Back to Top](#note-taker)
 * [Python3](https://www.python.org/downloads/)
 * [PyYAML](https://pyyaml.org/)
 
 # Installation
-[Back to Top](#note_taker)
+[Back to Top](#note-taker)
 Text
 
 # Usage
-[Back to Top](#noteTaker)
+[Back to Top](#note-taker)
 Text
