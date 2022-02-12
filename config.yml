@@ -1,16 +1,36 @@
-path: ~/Documents/Notes
+working_directory:
 templates:
-- meeting_notes: ./templates/meeting_notes.md
-  folders:
-  - /FY22MFG
-  - /FY23MAE
-- development_notes: ./templates/development_notes.md
-  folders:
-  - /Personal Development
-- one_on_one_notes: ./templates/one_on_one_notes.md
-  - /Personal Development/1 on 1s
+  - template: ./templates/_default.md
+    tokens:
+      - title
+      - datetime
+  - template: ./templates/meeting_notes.md
+    paths:
+      - /FY22 MFG
+      - /FY23 MAE
+    tokens:
+      - title
+      - datetime
+  - template: ./templates/development_notes.md
+    paths:
+      - /Personal Development
+    tokens:
+      - title
+      - datetime
+  - template: ./templates/one_on_one_notes.md
+    paths:
+      - /Personal Development/1 on 1s
+    tokens:
+      - title
+      - datetime
+note_exclusion_folders:
+  - Reports
 commands:
-- Create/Append Note
-- Run Fiscal Year Oppty Report
-- Run Fiscal Quarter Oppty Report
-- Run Personal Development Report
+  - Create/Append Note
+  - Run Fiscal Year Oppty Report
+  - Run Fiscal Quarter Oppty Report
+  - Run Personal Development Report
+classifications:
+  - category
+  - group
+max_cols: 4

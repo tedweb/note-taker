@@ -1,4 +1,4 @@
-# 
+# {title}
 
 **Trailhead(s):**
 
@@ -13,3 +13,7 @@
 * ...
 
 - - -
+
+Date: {datetime}
+Notes:
+* 
