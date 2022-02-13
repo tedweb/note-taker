@@ -9,7 +9,7 @@
 
 **Other Link(s):**
 
-*
+* ...
 
 - - -
 
@@ -38,8 +38,11 @@
 
 - - -
 
-Date: {datetime}
-Attendees:
-\*
-Notes:
-\*
+**Date:** {datetime}
+**Attendees:**
+
+* ...
+
+**Notes:**
+
+* ...
