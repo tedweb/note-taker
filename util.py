@@ -41,11 +41,15 @@ def get_entry(caption, range):
             print("Goodbye.")
             quit()
         else:
-            sys.stdout.write("\033[F")
-            sys.stdout.write("\033[K")
-            print(f"{caption}: Invalid Entry")
-            time.sleep(1)
-            sys.stdout.write("\033[F")
-            sys.stdout.write("\033[K")
+            reset_entry(caption)
     return result
+
+def reset_entry(caption):
+    sys.stdout.write("\033[F")
+    sys.stdout.write("\033[K")
+    print(f"{caption}: Invalid Entry")
+    time.sleep(1)
+    sys.stdout.write("\033[F")
+    sys.stdout.write("\033[K")
+
 

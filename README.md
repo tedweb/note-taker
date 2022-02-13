@@ -1,4 +1,4 @@
-# Note Taker
+# Scribe
 
 CLI based note taking app written in Python.
 

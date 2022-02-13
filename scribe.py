@@ -17,6 +17,7 @@ def run_command(command_index):
     else:
         print("Feature not implemented yet... goodbye.")
         quit()
+    print("Scribe process complete. Goodbye!")
 
 if __name__ == "__main__":
     util.load_env_vars()

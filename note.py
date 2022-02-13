@@ -1,11 +1,10 @@
 import datetime
-import fileinput
 import math
 import os
-import shutil
+import re
+import util
 from os.path import exists
 
-#  1) ADP                                          20) Edmac                                        39) Lutron                                       58) Solenis                  
 content_types = ['folders', 'files']
 target_extension = ".md"
 
@@ -14,29 +13,60 @@ def run(config):
     global current_directory
     global exclusion_folders
     global max_cols
+    global source_directory
     base_directory = config['working_directory']
     current_directory = config['working_directory']
     exclusion_folders = config['note_exclusion_folders']
     max_cols = int(config['max_cols'])
+    source_directory = config['source_directory']
 
     for classification in config['classifications']:
         print(f"\r\nSelect or enter a {classification}:")
         folder_item = get_folder_item(content_types[0])
         current_directory = f"{current_directory}/{folder_item}"
+        if not os.path.isdir(current_directory):
+            os.mkdir(current_directory)
 
     template = get_template(current_directory, config['templates'])
     print(f"\r\nSelect or enter a note title:")
     file_name = get_folder_item(content_types[1])
-    target_file = f"{current_directory}/{file_name}.md"
+    target_file = f"{current_directory}/{file_name}{target_extension}"
+
+    tokens = {}
+    for token in template['tokens']:
+        tokens[token] = None
+    tokens['title'] = file_name
+    tokens['datetime'] = str(datetime.datetime.now())
 
     if not exists(target_file):
-        shutil.copyfile(template['template'], target_file)
-        tokens = {}
-        for token in template['tokens']:
-            tokens[token] = None
-        tokens['title'] = file_name
-        tokens['datetime'] = str(datetime.datetime.now())
-        detokenize_file(target_file, tokens)
+        dest_file = open(target_file, "a")
+        read_file = open(f"{source_directory}/{template['template']}", "r")
+        template_lines = read_file.readlines()
+        for line in template_lines:
+            line = replace_tokens(line, tokens)
+            dest_file.writelines(line)
+        read_file.close()
+        dest_file.close()
+
+    else:
+        delimiter = "- - -\n"
+        append_text = None
+        read_file = open(template['template'], "r")
+        while True:
+            line = read_file.readline()
+            if line == delimiter:
+                append_text = "\n"
+            if not line:
+                break 
+            elif append_text is not None:
+                line = replace_tokens(line, tokens)                
+                append_text = f"{append_text}{line}\r\n"
+        read_file.close()
+
+        if append_text is not None:
+            write_file = open(target_file, "a")
+            write_file.write(append_text)
+            write_file.close()
 
 def  get_folder_item(content_type):
     items = os.listdir(path=current_directory)
@@ -51,11 +81,17 @@ def  get_folder_item(content_type):
     
     for listing in formatted_listings:
         print(listing)
-    entry = input("Selection: ")
+    caption = "Selection: "
+    if len(formatted_listings) == 0:
+        caption = ""
+    entry = input(caption)
     
     if entry.isnumeric():
         return listings[int(entry)-1]
     else:
+        while not is_valid_folder(entry):
+            util.reset_entry(caption)
+            entry = input(f"{caption}: ")
         return entry
 
 def is_valid_folder(item):
@@ -63,7 +99,7 @@ def is_valid_folder(item):
     for folder in exclusion_folders:
         if f"{base_directory}/{folder}" in current_path:
             return False
-    return os.path.isdir(f"{current_directory}/{item}") and item[0:1] != '.' and item[0:1] != '_'
+    return re.match("^[A-Za-z0-9_-]*$", item.replace(' ', ''))
 
 def is_valid_file(item):
     return os.path.isfile(f"{current_directory}/{item}") and get_extension(item) == target_extension
@@ -89,14 +125,15 @@ def format_listings(listings):
         listing_index = 0
         while len(list_queue) > 0:
             for row_index in range(row_count):
-                listing_index = listing_index + 1
-                listing_index_width = 5
-                listing = f"{listing_index}) ".rjust(listing_index_width)
-                listing = f"{listing}{list_queue.pop(0)}"
-                if len(listing) >= col_width:
-                    listing = f"{listing[0:col_width-listing_index_width]}..."
-                listing = listing.ljust(col_width)
-                result[row_index] = f"{result[row_index]}{listing}"
+                if len(list_queue) > 0:
+                    listing_index = listing_index + 1
+                    listing_index_width = 5
+                    listing = f"{listing_index}) ".rjust(listing_index_width)
+                    listing = f"{listing}{list_queue.pop(0)}"
+                    if len(listing) >= col_width:
+                        listing = f"{listing[0:col_width-listing_index_width]}..."
+                    listing = listing.ljust(col_width)
+                    result[row_index] = f"{result[row_index]}{listing}"
     return result
 
 def get_template(path, templates):
@@ -124,10 +161,7 @@ def get_template(path, templates):
                 break
     return result
 
-def detokenize_file(filename, tokens):
-    with fileinput.FileInput(filename, inplace=True) as file:
-        for line in file:
-            for token,value in tokens.items():
-                line = line.replace(f"{{{token}}}", value)
-            print(line)
-            #print(line.replace(f"{{{token}}}", value), end='')
+def replace_tokens(line, tokens):
+    for token,value in tokens.items():
+        line = line.replace(f"{{{token}}}", value)
+    return line
