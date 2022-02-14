@@ -2,7 +2,7 @@ import util
 import note
 
 def get_command():
-    print("\rWelcome to Note Taker!")
+    print("\rWelcome to Scribe!")
     print("\rSelect an option:")
     commands_len = len(config['commands'])
     for command_index in range(commands_len):

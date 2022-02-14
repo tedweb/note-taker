@@ -4,29 +4,15 @@ templates:
     tokens:
       - title
       - datetime
-  - template: ./templates/gif_demo.md
-    paths:
-      - /FY23
-    tokens:
-      - title
-      - datetime
-
   - template: ./templates/meeting_notes.md
     paths:
-      - /FY22 MFG
-      - /FY23 MAE
+      - /FY23
     tokens:
       - title
       - datetime
   - template: ./templates/development_notes.md
     paths:
       - /Personal Development
-    tokens:
-      - title
-      - datetime
-  - template: ./templates/one_on_one_notes.md
-    paths:
-      - /Personal Development/1 on 1s
     tokens:
       - title
       - datetime
