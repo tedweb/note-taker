@@ -51,7 +51,7 @@ def run(config):
     else:
         delimiter = "- - -\n"
         append_text = None
-        read_file = open(template['template'], "r")
+        read_file = open(f"{source_directory}/{template['template']}", "r")
         while True:
             line = read_file.readline()
             if line == delimiter:

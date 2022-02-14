@@ -35,11 +35,10 @@ def get_entry(caption, range):
 
     while(result is None):
         entry = input(f"{caption}: ")
-        if (entry.isnumeric() and int(entry) in range):
-            result = int(entry)
+        if (entry.isnumeric() and int(entry)-1 in range):
+            result = int(entry)-1
         elif (entry.upper() == "X"):
-            print("Goodbye.")
-            quit()
+            shutdown(0)
         else:
             reset_entry(caption)
     return result
@@ -52,4 +51,14 @@ def reset_entry(caption):
     sys.stdout.write("\033[F")
     sys.stdout.write("\033[K")
 
+def shutdown(iterations):
+    if iterations > 0:
+        for i in range(iterations+1):
+            sys.stdout.write("\r" + "Processing" + "." * i)
+            time.sleep(0.2)
+            sys.stdout.flush()
+        print(" done!")
+    print("Goodbye.")
+    time.sleep(1)
+    quit()
 
