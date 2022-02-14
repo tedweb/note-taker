@@ -34,6 +34,9 @@ note_exclusion_folders:
   - Reports
 commands:
   - Create/Append Note
+  - Run Fiscal Year Oppty Report
+  - Run Fiscal Quarter Oppty Report
+  - Run Personal Development Report
 classifications:
   - category
   - group

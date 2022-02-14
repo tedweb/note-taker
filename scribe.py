@@ -8,8 +8,7 @@ def get_command():
     for command_index in range(commands_len):
         print(f"\r  {str(command_index+1)}) {str(config['commands'][command_index])}")
     print("\r  X) Exit")
-    entry = util.get_entry("Selection", range(commands_len))
-    return entry-1
+    return util.get_entry("Selection", range(commands_len))
 
 def run_command(command_index):
     if command_index == 0:
@@ -17,7 +16,7 @@ def run_command(command_index):
     else:
         print("Feature not implemented yet... goodbye.")
         quit()
-    print("Scribe process complete. Goodbye!")
+    util.shutdown(3)
 
 if __name__ == "__main__":
     util.load_env_vars()
