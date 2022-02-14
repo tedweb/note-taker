@@ -8,7 +8,7 @@ from os.path import exists
 content_types = ['folders', 'files']
 target_extension = ".md"
 
-def run(config):
+def run(config, option):
     global base_directory
     global current_directory
     global exclusion_folders
@@ -16,18 +16,18 @@ def run(config):
     global source_directory
     base_directory = config['working_directory']
     current_directory = config['working_directory']
-    exclusion_folders = config['note_exclusion_folders']
-    max_cols = int(config['max_cols'])
+    exclusion_folders = option['ignore']
+    max_cols = int(option['max_cols'])
     source_directory = config['source_directory']
 
-    for classification in config['classifications']:
+    for classification in option['classifications']:
         print(f"\r\nSelect or enter a {classification}:")
         folder_item = get_folder_item(content_types[0])
         current_directory = f"{current_directory}/{folder_item}"
         if not os.path.isdir(current_directory):
             os.mkdir(current_directory)
 
-    template = get_template(current_directory, config['templates'])
+    template = get_template(current_directory, option['templates'])
     print(f"\r\nSelect or enter a note title:")
     file_name = get_folder_item(content_types[1])
     target_file = f"{current_directory}/{file_name}{target_extension}"
