@@ -7,4 +7,4 @@
 
 Date: {datetime}
 Notes:
-\*
+* ...
