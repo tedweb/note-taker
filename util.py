@@ -1,3 +1,4 @@
+from cgitb import reset
 import os
 import yaml
 import sys
@@ -5,6 +6,7 @@ import time
 from os import path
 from dotenv import load_dotenv
 
+config_file = None
 authentication_path = '/services/oauth2/token'
 
 def load_env_vars():
@@ -12,21 +14,34 @@ def load_env_vars():
     load_dotenv(path.join(basedir, '.env'))
 
 def load_config():
+    global config_file
     source_path = os.path.dirname(os.path.realpath(__file__))
     config_file = os.path.join(source_path, "config.yml")
     with open(config_file, "r") as ymlfile:
         config = yaml.load(ymlfile, Loader=yaml.FullLoader)
-
-    if config['working_directory'] == None:
-        if os.getenv('SCRIBE_WD') is not None:
-            config['working_directory'] = os.getenv('SCRIBE_WD')
-        else:
-            config['working_directory'] = source_path
+    ymlfile.close()
+    validate_config(config)
     config['source_directory'] = source_path
     return config
 
+def validate_config(config):
+    if config['working_directory'] is None or config['working_directory'] == '':
+        if os.getenv('SCRIBE_WD') is not None:
+            config['working_directory'] = os.getenv('SCRIBE_WD')
+        else:
+            entry = None
+            caption = "Enter the local path to your notes folder: "
+            while not entry:
+                entry = input(caption)
+                if not os.path.isdir(entry):
+                    error_message =  "Path does not exist."
+                    reset_entry(caption, error_message)
+                    entry = None
+            config['working_directory'] = entry
+            print("Path saved to config file.\n")
+            save_config(config)
+
 def save_config(config):
-    config_file = os.path.join(config['source_path'], "config.yml")
     with open(config_file, 'w') as file:
         yaml.dump(config, file)
 
@@ -43,10 +58,12 @@ def get_entry(caption, range):
             reset_entry(caption)
     return result
 
-def reset_entry(caption):
+def reset_entry(caption, error_message):
+    if not error_message:
+        error_message = "Invalid Entry"
     sys.stdout.write("\033[F")
     sys.stdout.write("\033[K")
-    print(f"{caption}: Invalid Entry")
+    print(f"{caption}: {error_message}")
     time.sleep(1)
     sys.stdout.write("\033[F")
     sys.stdout.write("\033[K")
