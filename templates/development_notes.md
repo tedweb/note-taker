@@ -2,7 +2,7 @@
 
 **Trailhead(s):**
 
-* [] 
+* []
 
 **Slack Channel(s):**
 
@@ -16,4 +16,4 @@
 
 Date: {datetime}
 Notes:
-* 
+* ...

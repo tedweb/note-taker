@@ -1,27 +1,27 @@
 commands:
-  - option:
-      caption: Create/Append Note
-      classifications:
-        - category
-        - group
-      ignore:
-        - Reports
-      max_cols: 4
-      templates:
-        - template: ./templates/_default.md
-          tokens:
-            - title
-            - datetime
-        - template: ./templates/meeting_notes.md
-          paths:
-            - /FY23
-          tokens:
-            - title
-            - datetime
-        - template: ./templates/development_notes.md
-          paths:
-            - /Personal Development
-          tokens:
-            - title
-            - datetime
-working_directory:
+- option:
+    caption: Create/Append Note
+    classifications:
+    - category
+    - group
+    ignore:
+    - Reports
+    max_cols: 4
+    templates:
+    - template: ./templates/_default.md
+      tokens:
+      - title
+      - datetime
+    - paths:
+      - /FY23
+      template: ./templates/meeting_notes.md
+      tokens:
+      - title
+      - datetime
+    - paths:
+      - /Personal Development
+      template: ./templates/development_notes.md
+      tokens:
+      - title
+      - datetime
+working_directory: /Users/tgodwin/Documents/Notes
