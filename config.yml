@@ -19,7 +19,7 @@ commands:
       - title
       - datetime
     - paths:
-      - /Personal Development
+      - /Technical Notes
       template: ./templates/development_notes.md
       tokens:
       - title
