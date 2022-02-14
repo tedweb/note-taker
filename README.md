@@ -52,9 +52,8 @@ Alternatively, a safer method would include the path.  Using the path example f
 The first run will prompt you to enter the path to your notes folder (ex. '<span class="colour" style="color:rgb(206, 145, 120)">/Users/jsmith/Documents/Notes</span>'). If this folder does not exist, create it.  Once created, you are ready to start creating some markdown notes!
 ![image](https://raw.githubusercontent.com/tedweb/scribe/main/resources/Screenshot.png)
 
-<br>
-<br>
-<br>
+![image](https://raw.githubusercontent.com/tedweb/scribe/main/resources/typora.png)
+
 # Configuration
 
 [Back to Top](#note-taker)
