@@ -7,7 +7,7 @@ Scribe is an automated markdown generator written in Python. This utility levera
 1. [Overview](#overview)
 2. [Requirements](#requirements)
 3. [Installation](#installation)
-4. [Usage](#usage)
+4. [Configuration](#configuration)
 
 # Overview
 
@@ -60,12 +60,9 @@ The first run will prompt you to enter the path to your notes folder (ex. '<span
 
 The `config.yml` file is a YAML file allowing for customizations of the app includeing:
 
-* ignore: Folders to ignore and prevent from displaying.
-* working directory: There your note files are kept.
-* template: Custom templates can be created and assigned to specific directories within your notes folder.
+* `ignore`: Folders to ignore and prevent from displaying.
+* `working` directory: There your note files are kept.
+* `template`: Custom templates can be created and assigned to specific directories within your notes folder.
 
-# Usage
-
-[Back to Top](#note-taker)
 <br>
-* Text
+<br>
