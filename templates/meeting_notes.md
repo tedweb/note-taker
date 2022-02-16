@@ -30,6 +30,13 @@
 ...
 
 - - -
+**Follow-Up Questions:**
+
+| Question | Answer |
+| -------- | ------ |
+|          |        |
+
+- - -
 
 **Date:** {datetime}
 **Notes:**

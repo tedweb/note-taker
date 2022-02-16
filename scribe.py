@@ -19,8 +19,10 @@ def run_command(option_index):
     util.shutdown(3)
 
 if __name__ == "__main__":
-    util.load_env_vars()
+    initial_run = not util.config_exists()
     config = util.load_config()
+    if initial_run:
+        note.create_scratchpad(config)
     option_index = get_command()
     run_command(option_index)
 
