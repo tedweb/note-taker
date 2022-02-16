@@ -1,4 +1,3 @@
-from cgitb import reset
 import os
 import yaml
 import sys
@@ -22,30 +21,22 @@ config_template = {
                 "max_cols": 4,
                 "templates": [
                     {
-                        "template": "./templates/_default.md",
-                        "tokens": [
-                            "title",
-                            "datetime"
-                        ]
-                    },
-                    {
-                        "paths": [
-                            "/FY23"
+                        "template": "opportunity.md",
+                        "variables": [
+                            {
+                                "amount": "0.00"
+                            }
                         ],
-                        "template": "./templates/meeting_notes.md",
-                        "tokens": [
-                            "title",
-                            "datetime"
+                        "paths": [
+                            "/FY21",
+                            "/FY22",
+                            "/FY23",
                         ]
                     },
                     {
+                        "template": "technical.md",
                         "paths": [
                             "/Technical Notes"
-                        ],
-                        "template": "./templates/development_notes.md",
-                        "tokens": [
-                            "title",
-                            "datetime"
                         ]
                     }
                 ]
