@@ -35,7 +35,9 @@ def run(config, option):
     dst_path = os.path.join(current_directory, f"{file_name}{target_extension}")
 
     if exists(src_path):
-        variables = template['variables']
+        template['variables'] = []
+        if 'variables' in template:
+            variables = template['variables']
         intrinsic_keys = ["title", "datetime"]
         variables.append({intrinsic_keys[0]: file_name})
         variables.append({intrinsic_keys[1]: str(datetime.datetime.now())})
