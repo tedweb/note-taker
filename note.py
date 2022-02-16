@@ -2,6 +2,7 @@ import datetime
 import math
 import os
 import re
+import shutil
 import util
 from os.path import exists
 
@@ -165,3 +166,12 @@ def replace_tokens(line, tokens):
     for token,value in tokens.items():
         line = line.replace(f"{{{token}}}", value)
     return line
+
+def create_scratchpad(config):
+    dst_filename = "Scratchpad.md"
+    dst_file = os.path.join(config['working_directory'], dst_filename)
+
+    if not exists(dst_file):
+        src_filename = "_scratchpad.md"
+        src_file = os.path.join(config['source_directory'], "templates", src_filename)
+        shutil.copyfile(src_file, dst_file)

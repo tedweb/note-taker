@@ -3,26 +3,73 @@ import os
 import yaml
 import sys
 import time
-from os import path
-from dotenv import load_dotenv
+from os.path import exists
 
-config_file = None
-authentication_path = '/services/oauth2/token'
-
-def load_env_vars():
-    basedir = path.abspath(path.dirname(__file__))
-    load_dotenv(path.join(basedir, '.env'))
+source_path = os.path.dirname(os.path.realpath(__file__))
+config_file = os.path.join(source_path, "config.yml")
+config_template = {
+    "commands": [
+        {
+            "option": {
+                "caption": "Create/Append Note",
+                "classifications": [
+                    "category",
+                    "group"
+                ],
+                "ignore": [
+                    "Reports"
+                ],
+                "max_cols": 4,
+                "templates": [
+                    {
+                        "template": "./templates/_default.md",
+                        "tokens": [
+                            "title",
+                            "datetime"
+                        ]
+                    },
+                    {
+                        "paths": [
+                            "/FY23"
+                        ],
+                        "template": "./templates/meeting_notes.md",
+                        "tokens": [
+                            "title",
+                            "datetime"
+                        ]
+                    },
+                    {
+                        "paths": [
+                            "/Technical Notes"
+                        ],
+                        "template": "./templates/development_notes.md",
+                        "tokens": [
+                            "title",
+                            "datetime"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "working_directory": None,
+    "source_directory": None
+}
 
 def load_config():
-    global config_file
-    source_path = os.path.dirname(os.path.realpath(__file__))
-    config_file = os.path.join(source_path, "config.yml")
-    with open(config_file, "r") as ymlfile:
-        config = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    ymlfile.close()
+    if not config_exists():
+        config = config_template
+        config['source_directory'] = source_path
+        save_config(config_template)
+    else:
+        with open(config_file, "r") as yml_file:
+            config = yaml.load(yml_file, Loader=yaml.FullLoader)
+        yml_file.close()
     validate_config(config)
-    config['source_directory'] = source_path
     return config
+
+def config_exists():
+    return exists(config_file)
 
 def validate_config(config):
     if config['working_directory'] is None or config['working_directory'] == '':
@@ -47,7 +94,6 @@ def save_config(config):
 
 def get_entry(caption, range):
     result = None
-
     while(result is None):
         entry = input(f"{caption}: ")
         if (entry.isnumeric() and int(entry)-1 in range):
