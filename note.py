@@ -31,43 +31,47 @@ def run(config, option):
     template = get_template(current_directory, option['templates'])
     print(f"\r\nSelect or enter a note title:")
     file_name = get_folder_item(content_types[1])
-    target_file = f"{current_directory}/{file_name}{target_extension}"
+    src_path = os.path.join(source_directory, "templates", template['template'])
+    dst_path = os.path.join(current_directory, f"{file_name}{target_extension}")
 
-    tokens = {}
-    for token in template['tokens']:
-        tokens[token] = None
-    tokens['title'] = file_name
-    tokens['datetime'] = str(datetime.datetime.now())
+    if exists(src_path):
+        variables = template['variables']
+        intrinsic_keys = ["title", "datetime"]
+        variables.append({intrinsic_keys[0]: file_name})
+        variables.append({intrinsic_keys[1]: str(datetime.datetime.now())})
+        for variable in variables:
+            key = list(variable)[0]
+            default = variable[list(variable)[0]]
+            if key not in intrinsic_keys:
+                caption = f"Enter value for {key} [{default}]: "
+                variable[list(variable)[0]] = input(caption) or default
 
-    if not exists(target_file):
-        dest_file = open(target_file, "a")
-        read_file = open(f"{source_directory}/{template['template']}", "r")
-        template_lines = read_file.readlines()
-        for line in template_lines:
-            line = replace_tokens(line, tokens)
-            dest_file.writelines(line)
-        read_file.close()
-        dest_file.close()
-
-    else:
-        delimiter = "- - -\n"
-        append_text = None
-        read_file = open(f"{source_directory}/{template['template']}", "r")
-        while True:
-            line = read_file.readline()
-            if line == delimiter:
-                append_text = "\n"
-            if not line:
-                break 
-            elif append_text is not None:
-                line = replace_tokens(line, tokens)                
-                append_text = f"{append_text}{line}\r\n"
-        read_file.close()
-
-        if append_text is not None:
-            write_file = open(target_file, "a")
-            write_file.write(append_text)
-            write_file.close()
+        if not exists(dst_path):
+            src_file = open(src_path, "r")
+            dst_file = open(dst_path, "a")
+            template_lines = src_file.readlines()
+            for line in template_lines:
+                line = replace_variables(line, variables)
+                dst_file.writelines(line)
+            src_file.close()
+            dst_file.close()
+        else:
+            src_file = open(src_path, "r")
+            dst_file = open(dst_path, "a")
+            delimiter = "- - -\n"
+            append_text = None
+            while True:
+                line = src_file.readline()
+                if line == delimiter:
+                    append_text = "\n"
+                if not line:
+                    break 
+                elif append_text is not None:
+                    line = replace_variables(line, variables)                
+                    append_text = f"{append_text}{line}\r\n"
+            dst_file.write(append_text or '')
+            src_file.close()
+            dst_file.close()
 
 def  get_folder_item(content_type):
     items = os.listdir(path=current_directory)
@@ -156,21 +160,23 @@ def get_template(path, templates):
             result = template
             break
     if result is None:
-        for template in templates:
-            if 'template' in template.keys() and '_default' in template['template']:
-                result = template
-                break
+        result = {
+            "template": "_default.md"
+        }
     return result
 
-def replace_tokens(line, tokens):
-    for token,value in tokens.items():
-        line = line.replace(f"{{{token}}}", value)
+def replace_variables(line, variables):
+    for variable in variables:
+        key = list(variable)[0]
+        value = variable[list(variable)[0]]
+        if 'Amount' in line and key == "amount":
+            x=1
+        line = line.replace(f"{{{key}}}", str(value or ''))
     return line
 
 def create_scratchpad(config):
     dst_filename = "Scratchpad.md"
     dst_file = os.path.join(config['working_directory'], dst_filename)
-
     if not exists(dst_file):
         src_filename = "_scratchpad.md"
         src_file = os.path.join(config['source_directory'], "templates", src_filename)

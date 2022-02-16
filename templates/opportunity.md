@@ -1,7 +1,7 @@
 # {title}
 
 **Deal Link:** ...
-**Deal Amount:** 0.00
+**Deal Amount:** {amount}
 
 - - -
 
