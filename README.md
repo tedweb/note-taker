@@ -120,7 +120,7 @@ Variables can be defined within the templates. Defining custom templates is a tw
 
 In the screenshot above, a variable names 'amount' is defined with a default of '0.00'.  This requires the template to reference the variable using curly braces (see below).
 
-###### ![image-20220216115230336](/Users/tgodwin/Documents/Projects/scribe/resources/variable.png)
+###### ![image-20220216115230336](resources/variable.png)
 
 Scribe will promt user to enter a value (or press return to accept default value) for all variables from the command line.
 
