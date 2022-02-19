@@ -80,10 +80,13 @@ A WYSIWYG markdown editor is highly recommended.  Below are two worth consideri
 This is a command line interface (CLI) tool.  CLIs offer the ability to do repetitive tasks more efficiently and faster than a GUI interface because there's only a single device to interact with, the keyboard. Nonetheless, users must be familiar with their operating system's [terminal](https://itconnect.uw.edu/learn/workshops/online-tutorials/web-publishing/what-is-a-terminal/) app. VS Code users can run this utility app directy from the IDE's built in terminal pane for a unified system of engagement. To install, make sure Python3 and PyYAML is installed (noted above) then follow the below 3-step process:
 
 1. Navigate to the directory of your choice from your terminal app. An example would be:
-`cd /Users/jsmith/Documents/Projects`
+  `cd /Users/jsmith/Documents/Projects`
+
 2. Run the following GIT command:
-`git clone https://github.com/tedweb/scribe.git`
-This will download the project file into the directory from step one. The output should read similar to this:![image](./resources/git_clone.png)
+  `git clone https://github.com/tedweb/scribe.git`
+  This will download the project file into the directory from step one. The output should read similar to this:
+
+  ![image](./resources/git_clone.png)
 3. Scribe is now operational. Run the following command to execute:
 `python3 scribe.py`
 
