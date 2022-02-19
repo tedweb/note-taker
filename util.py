@@ -21,21 +21,16 @@ config_template = {
                 "max_cols": 4,
                 "templates": [
                     {
-                        "template": "opportunity.md",
-                        "variables": [
-                            {
-                                "amount": "0.00"
-                            }
-                        ],
-                        "paths": [
+                        "file": "opportunity.md",
+                        "target_paths": [
                             "/FY21",
                             "/FY22",
                             "/FY23",
                         ]
                     },
                     {
-                        "template": "technical.md",
-                        "paths": [
+                        "file": "technical.md",
+                        "target_paths": [
                             "/Technical Notes"
                         ]
                     }
@@ -43,8 +38,9 @@ config_template = {
             }
         }
     ],
-    "working_directory": None,
-    "source_directory": None
+    "post_script": None,
+    "source_directory": None,
+    "working_directory": None
 }
 
 def load_config():

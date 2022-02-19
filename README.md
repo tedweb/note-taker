@@ -8,7 +8,7 @@
 
 In today's work-from-anywhere world, keeping everything organized can be a challenge. Scribe works to simplify one aspect of your everyday work life... your daily notes. You take them. You need them. Let's organize them! Scribe follows the '*Less Is More*' mentality. No GUI interface, just a simple command line that can be launched from an icon on your desktop.
 
-<img src="./resources/scribe_giphy.gif" style="zoom:100%;border: 1px solid gray;">
+###### <img src="./resources/scribe_giphy.gif" style="zoom:100%;border: 1px solid gray;">
 
 1. [Overview](#overview)
 2. [Requirements](#requirements)
@@ -83,7 +83,7 @@ This is a command line interface (CLI) tool.  CLIs offer the ability to do repe
 `cd /Users/jsmith/Documents/Projects`
 2. Run the following GIT command:
 `git clone https://github.com/tedweb/scribe.git`
-This will download the project file into the directory from step one. The output should read similar to this:![image](https://raw.githubusercontent.com/tedweb/scribe/main/resources/git_clone.png)
+This will download the project file into the directory from step one. The output should read similar to this:![image](./resources/git_clone.png)
 3. Scribe is now operational. Run the following command to execute:
 `python3 scribe.py`
 
@@ -115,33 +115,61 @@ Here's a screenshot of the UNotes + VSCode interface.
 
 #### Templates
 
-Templates can be created and saved within the 'templates' folder of where Scribe resides. This allows you to automatically apply a custom format to your markdown note depending upon where your note is created. Defining custom templates is a two step process:
+Templates can be used to apply customized formats to your notes. Create and save templates in markdown format with an extension of '.md' within the 'templates' folder. Templates must be references within the config.yml file with the following attributes:
 
-1. Create template (in markdown format) and save within the 'scribe/templates' folder.
-2. Reference template from the config file.
+- file: The name of the template file within the 'templates' folder.
+- target_paths: A list of file paths within your notes directory to determine which template is applied.
 
-Scribe will determine which template to apply based upon the which folder you select to save your note.
+###### ![image-20220216114253258](./resources/template.png)
 
-###### ![image-20220216114253258](resources/template.png)
-
-In the screenshot above, the 'opportunity.md' template will be applied to notes created in the FY21, FY22, FY23 sub-folders.
+In the screenshot above, the 'opportunity.md' template will be applied to notes created in the FY21, FY22, FY23 sub-folders of the notes directory.
 
 - - -
 
 #### Variables
 
-Variables can be defined within the templates. Defining custom templates is a two step process:
+Templates can contain variables with values that will be defined when the note is created.  To create a variable within a template, wrap varible name within curly braces:
 
-1. Create template using curly braces to denote varables. For example, a variable titled 'amount' would be entered as {amount} within the template.
-2. Reference variable and default value from the config file.
+###### ![image-20220216115230336](resources/variable_undefined.png)
 
-###### ![image-20220216114253258](resources/template.png)
+The sample template above has four declared variables:
 
-In the screenshot above, a variable names 'amount' is defined with a default of '0.00'. This requires the template to reference the variable using curly braces (see below).
+- title
+- datetime
+- main course
+- sides
 
-###### ![image-20220216115230336](resources/variable.png)
+Scribe will prompt user to define these variables during note creation:
 
-Scribe will promt user to enter a value (or press return to accept default value) for all variables from the command line.
+###### ![image-20220216115230336](resources/scribe_variable_defining.png)
+
+Note: 'title' and 'datetime' are reserved variable names that can't be overwritten.  Therefore, Scribe will not be prompt user to enter these values. Once these values have been entered from the command line, the note will have all variables replaced with those values.
+
+###### ![image-20220216115230336](resources/variable_defined.png)
+
+------
+
+#### Variables with Default Values
+
+To give a variable a default value, seperate the variable name from the default value with an equal '=' sign:
+
+`{amount=0.00}`
+
+Variables with default values are denoted by square brackets:
+
+###### ![image-20220216115230336](resources/default_values.png)
+
+Simply press the 'Enter' button to accept the default value, or override it with your own value.
+
+------
+
+#### Auto Launch WYSIWYG Editor
+
+Some editors, such as Typora, support opening a specified file from the command line. To have Scribe automatically open a newly created or appended note within Typora, follow the following two steps:
+
+1. 
+2. Edit the 'post_script' attribute of the config.yml file with the following command:
+   `open '{file}' -a typora`
 
 - - -
 
@@ -155,4 +183,4 @@ The `config.yml` file is a YAML file allowing for customizations of the app. Cur
 * `working_directory`: Where your note files are kept.
 * `classifications`: This defines the unifying folder structure to organize your notes
 * `template`: Custom templates can be created and assigned to specific directories within your notes folder.
-* `variables`: Templates can contain variables with default values.
+* `post_script`: 
