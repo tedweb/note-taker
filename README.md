@@ -16,6 +16,8 @@ In today's work-from-anywhere world, keeping everything organized can be a chall
 4. [Operation](#operation)
 5. [Templates](#templates)
 6. [Variables](#variables)
+6. [Variables with Default Values](#Variables with Default Values)
+7. [Auto Launch WYSIWYG Editor](#Auto Launch WYSIWYG Editor)
 7. [Configuration](#configuration)
 
 - - -
@@ -165,11 +167,8 @@ Simply press the 'Enter' button to accept the default value, or override it with
 
 #### Auto Launch WYSIWYG Editor
 
-Some editors, such as Typora, support opening a specified file from the command line. To have Scribe automatically open a newly created or appended note within Typora, follow the following two steps:
-
-1. 
-2. Edit the 'post_script' attribute of the config.yml file with the following command:
-   `open '{file}' -a typora`
+Some editors, such as Typora, support opening a specified file from the command line. To have Scribe automatically open a newly created or appended note within Typora, edit the 'post_script' attribute of the config.yml file with the following command:
+`open '{file}' -a typora`
 
 - - -
 
