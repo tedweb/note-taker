@@ -1,7 +1,8 @@
 # {title}
 
 **Deal Link:** ...
-**Deal Amount:** {amount}
+**Deal Amount:** 0.00
+**Summary:** ...
 
 - - -
 
@@ -30,11 +31,12 @@
 ...
 
 - - -
+
 **Follow-Up Questions:**
 
 | Question | Answer |
 | -------- | ------ |
-|          |        |
+|  |  |
 
 - - -
 

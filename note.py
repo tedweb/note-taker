@@ -31,23 +31,25 @@ def run(config, option):
     template = get_template(current_directory, option['templates'])
     print(f"\r\nSelect or enter a note title:")
     file_name = get_folder_item(content_types[1])
-    src_path = os.path.join(source_directory, "templates", template['template'])
+    src_path = os.path.join(source_directory, "templates", template['file'])
     dst_path = os.path.join(current_directory, f"{file_name}{target_extension}")
 
     if exists(src_path):
-        if 'variables' not in template:
-            template['variables'] = []
-        else:
-            variables = template['variables']
         intrinsic_keys = ["title", "datetime"]
-        variables.append({intrinsic_keys[0]: file_name})
-        variables.append({intrinsic_keys[1]: str(datetime.datetime.now())})
+        variables = get_template_variables(src_path)
+        for variable in variables:
+            if list(variable)[0] == intrinsic_keys[0]:
+                variable[intrinsic_keys[0]] = file_name
+            elif list(variable)[0] == intrinsic_keys[1]:
+                variable[intrinsic_keys[1]] = str(datetime.datetime.now())
         for variable in variables:
             key = list(variable)[0]
             default = variable[list(variable)[0]]
             if key not in intrinsic_keys:
-                caption = f"Enter value for {key} [{default}]: "
-                variable[list(variable)[0]] = input(caption) or default
+                caption = f"Enter value for {key}"
+                if default != '':
+                    caption = f"{caption} [{default}]"
+                variable[list(variable)[0]] = input(f"{caption}: ") or default
 
         if not exists(dst_path):
             src_file = open(src_path, "r")
@@ -71,10 +73,11 @@ def run(config, option):
                     break 
                 elif append_text is not None:
                     line = replace_variables(line, variables)                
-                    append_text = f"{append_text}{line}\r\n"
+                    append_text = f"{append_text}{line}"
             dst_file.write(append_text or '')
             src_file.close()
             dst_file.close()
+    return dst_path
 
 def  get_folder_item(content_type):
     items = os.listdir(path=current_directory)
@@ -149,8 +152,8 @@ def get_template(path, templates):
     paths = []
     result = None
     for template in templates:
-        if 'paths' in template.keys():
-            for path in template['paths']:
+        if 'target_paths' in template.keys():
+            for path in template['target_paths']:
                 if new_path[0:len(path)] == path:
                     paths.append(path)
                     break
@@ -159,7 +162,7 @@ def get_template(path, templates):
         if len(path) > len(longest_path):
             longest_path = path
     for template in templates:
-        if 'paths' in template.keys() and longest_path in template['paths']:
+        if 'target_paths' in template.keys() and longest_path in template['target_paths']:
             result = template
             break
     if result is None:
@@ -171,10 +174,12 @@ def get_template(path, templates):
 def replace_variables(line, variables):
     for variable in variables:
         key = list(variable)[0]
+        key_regex = r"\{(" + key + ".*?)\}"
         value = variable[list(variable)[0]]
-        if 'Amount' in line and key == "amount":
-            x=1
-        line = line.replace(f"{{{key}}}", str(value or ''))
+        if key == "amount":
+            line = re.sub(key_regex, value, line)
+        else:
+            line = line.replace(f"{{{key}}}", str(value or ''))
     return line
 
 def create_scratchpad(config):
@@ -184,3 +189,26 @@ def create_scratchpad(config):
         src_filename = "_scratchpad.md"
         src_file = os.path.join(config['source_directory'], "templates", src_filename)
         shutil.copyfile(src_file, dst_file)
+
+def get_template_variables(src_path):
+    variables = []
+    var_regex = r"\{(.*?)\}"
+    delimiter = '='
+
+    with open(src_path, "r") as src_file:
+        template_lines = src_file.readlines()
+        for line in template_lines:
+            vars = re.findall(var_regex, line)
+            for var in vars:
+                if delimiter not in var:
+                    var = f"{var}="
+                name = var[0:var.index(delimiter)]
+                value = var[var.index(delimiter)+1:]
+                var_exists = False
+                for variable in variables:
+                    if list(variable)[0] == name:
+                        var_exists = True
+                        break
+                if not var_exists:
+                    variables.append({name: value})
+    return variables
