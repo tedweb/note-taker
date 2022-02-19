@@ -16,7 +16,7 @@ In today's work-from-anywhere world, keeping everything organized can be a chall
 4. [Operation](#operation)
 5. [Templates](#templates)
 6. [Variables](#variables)
-6. [Variables with Default Values](#variables_with_default_values)
+6. [Variables with Default Values](#variables-with-default-values)
 7. [Auto Launch WYSIWYG Editor](#Auto Launch WYSIWYG Editor)
 7. [Configuration](#configuration)
 
