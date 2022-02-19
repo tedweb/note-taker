@@ -87,6 +87,7 @@ This is a command line interface (CLI) tool.  CLIs offer the ability to do repe
   This will download the project file into the directory from step one. The output should read similar to this:
 
   ![image](./resources/git_clone.png)
+  
 3. Scribe is now operational. Run the following command to execute:
 `python3 scribe.py`
 
