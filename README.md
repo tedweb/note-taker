@@ -1,10 +1,8 @@
 # Scribe
 
-##### *Do you take lots of notes? Are they scattered across multiple files, folders and apps?*
-
-##### *Do you ever have the need to quickly create a note in a matter of seconds?*
-
-##### *Tired of navigating various apps, browsers and tabs just to locate that one note to add a comment?*
+#### *Do you take lots of notes? Are they scattered across multiple files, folders and apps?*
+#### *Do you ever have the need to quickly create a note in a matter of seconds?*
+#### *Tired of navigating various apps, browsers and tabs just to locate that one note to add a comment?*
 
 In today's work-from-anywhere world, keeping everything organized can be a challenge. Scribe works to simplify one aspect of your everyday work life... your daily notes. You take them. You need them. Let's organize them! Scribe follows the '*Less Is More*' mentality. No GUI interface, just a simple command line that can be launched from an icon on your desktop.
 
